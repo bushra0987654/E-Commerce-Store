@@ -1,0 +1,44 @@
+{% extends 'store/base.html' %}
+{% block title %}{{ product.name }} - SimpleShop{% endblock %}
+
+{% block content %}
+<div class="row g-5">
+    <div class="col-md-6">
+        {% if product.image %}
+            <img src="{{ product.image.url }}" class="img-fluid rounded-4 shadow-sm" alt="{{ product.name }}">
+        {% else %}
+            <img src="https://via.placeholder.com/500x400?text=No+Image" class="img-fluid rounded-4 shadow-sm" alt="No image available">
+        {% endif %}
+    </div>
+    <div class="col-md-6">
+        <h1 class="mb-3">{{ product.name }}</h1>
+        <p class="fs-3 text-primary fw-bold">${{ product.price }}</p>
+
+        {% if product.in_stock %}
+            <span class="badge bg-success mb-3">In Stock ({{ product.stock }} available)</span>
+        {% else %}
+            <span class="badge bg-danger mb-3">Out of Stock</span>
+        {% endif %}
+
+        <p class="text-muted">{{ product.description }}</p>
+
+        {% if product.in_stock %}
+        <form method="post" action="{% url 'add_to_cart' product.id %}" class="d-flex align-items-center gap-3 mt-4">
+            {% csrf_token %}
+            <label for="quantity" class="form-label mb-0">Quantity:</label>
+            <input type="number" id="quantity" name="quantity" value="1" min="1" max="{{ product.stock }}"
+                   class="form-control" style="width: 100px;">
+            <button type="submit" class="btn btn-primary btn-lg">
+                <i class="bi bi-cart-plus"></i> Add to Cart
+            </button>
+        </form>
+        {% else %}
+        <button class="btn btn-secondary btn-lg mt-4" disabled>Out of Stock</button>
+        {% endif %}
+
+        <div class="mt-4">
+            <a href="{% url 'product_list' %}" class="btn btn-outline-secondary"><i class="bi bi-arrow-left"></i> Back to Products</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,27 @@
+{% load static %}
+<div class="col-sm-6 col-md-4 col-lg-3">
+    <div class="card product-card h-100 shadow-sm">
+        <a href="{% url 'product_detail' product.id %}">
+            {% if product.image %}
+                <img src="{{ product.image.url }}" class="card-img-top product-img" alt="{{ product.name }}">
+            {% else %}
+                <img src="https://via.placeholder.com/300x220?text=No+Image" class="card-img-top product-img" alt="No image available">
+            {% endif %}
+        </a>
+        <div class="card-body d-flex flex-column">
+            <h5 class="card-title">
+                <a href="{% url 'product_detail' product.id %}" class="text-decoration-none text-dark">{{ product.name }}</a>
+            </h5>
+            <p class="card-text text-muted small flex-grow-1">{{ product.description|truncatewords:12 }}</p>
+            <div class="d-flex justify-content-between align-items-center mt-2">
+                <span class="fw-bold fs-5 text-primary">${{ product.price }}</span>
+                {% if product.in_stock %}
+                    <span class="badge bg-success">In Stock</span>
+                {% else %}
+                    <span class="badge bg-danger">Out of Stock</span>
+                {% endif %}
+            </div>
+            <a href="{% url 'product_detail' product.id %}" class="btn btn-primary mt-3">View Details</a>
+        </div>
+    </div>
+</div>

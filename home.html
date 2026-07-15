@@ -1,0 +1,42 @@
+{% extends 'store/base.html' %}
+{% load static %}
+{% block title %}Home - SimpleShop{% endblock %}
+
+{% block content %}
+
+{% if not query %}
+<!-- ============ HERO SECTION ============ -->
+<div class="hero-section rounded-4 p-5 mb-5 text-center text-white">
+    <h1 class="display-4 fw-bold">Welcome to SimpleShop</h1>
+    <p class="lead">Quality products at unbeatable prices. Shop the latest arrivals today.</p>
+    <a href="{% url 'product_list' %}" class="btn btn-warning btn-lg mt-2">Shop Now <i class="bi bi-arrow-right"></i></a>
+</div>
+{% endif %}
+
+{% if query %}
+    <!-- ============ SEARCH RESULTS ============ -->
+    <h2 class="mb-4">Search results for "{{ query }}"</h2>
+    <div class="row g-4">
+        {% for product in search_results %}
+            {% include 'store/_product_card.html' %}
+        {% empty %}
+            <p class="text-muted">No products found matching your search.</p>
+        {% endfor %}
+    </div>
+{% else %}
+    <!-- ============ FEATURED PRODUCTS ============ -->
+    <h2 class="mb-4"><i class="bi bi-stars text-warning"></i> Featured Products</h2>
+    <div class="row g-4">
+        {% for product in featured_products %}
+            {% include 'store/_product_card.html' %}
+        {% empty %}
+            <p class="text-muted">No products available yet. Check back soon!</p>
+        {% endfor %}
+    </div>
+
+    <div class="text-center mt-5">
+        <a href="{% url 'product_list' %}" class="btn btn-outline-primary btn-lg">View All Products</a>
+    </div>
+{% endif %}
+
+{% endblock %}

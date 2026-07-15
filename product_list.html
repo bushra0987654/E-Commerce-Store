@@ -1,0 +1,16 @@
+{% extends 'store/base.html' %}
+{% block title %}Products - SimpleShop{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">
+    {% if query %}Search results for "{{ query }}"{% else %}All Products{% endif %}
+</h2>
+
+<div class="row g-4">
+    {% for product in products %}
+        {% include 'store/_product_card.html' %}
+    {% empty %}
+        <p class="text-muted">No products found.</p>
+    {% endfor %}
+</div>
+{% endblock %}
